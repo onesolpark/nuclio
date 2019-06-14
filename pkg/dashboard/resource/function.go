@@ -126,6 +126,8 @@ func (fr *functionResource) Create(request *http.Request) (id string, attributes
 
 	getFunctionsOptions.Labels = fmt.Sprintf("nuclio.io/project-name=%s", projectNameFilter)
 
+	fr.Logger.InfoWith("Function Options", "getFunctionsOptions", getFunctionsOptions)
+
 	// TODO: Add a lock to prevent race conditions here (prevent 2 functions created with the same name)
 	functions, err := fr.getPlatform().GetFunctions(getFunctionsOptions)
 	if err != nil {
