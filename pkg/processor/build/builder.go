@@ -277,6 +277,11 @@ func (b *Builder) GetFunctionName() string {
 	return b.options.FunctionConfig.Meta.Name
 }
 
+// GetFunctionNamespace returns the namespace of the function
+func (b *Builder) GetFunctionNamespace() string {
+	return b.options.FunctionConfig.Meta.Namespace
+}
+
 // GetFunctionHandler returns the name of the handler
 func (b *Builder) GetFunctionHandler() string {
 	return b.options.FunctionConfig.Spec.Handler
@@ -427,7 +432,7 @@ func (b *Builder) getImage() string {
 			}
 		}
 
-		imageName = fmt.Sprintf("%sprocessor-%s", repository, b.GetFunctionName())
+		imageName = fmt.Sprintf("%s%s-%s", repository, b.GetFunctionNamespace(), b.GetFunctionName())
 	} else {
 		imageName = b.options.FunctionConfig.Spec.Build.Image
 	}
