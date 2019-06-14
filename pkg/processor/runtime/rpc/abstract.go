@@ -22,6 +22,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math"
 	"net"
 	"net/http"
 	"os"
@@ -39,8 +40,9 @@ import (
 
 // TODO: Find a better place (both on file system and configuration)
 const (
-	socketPathTemplate = "/tmp/nuclio-rpc-%s.sock"
-	connectionTimeout  = 2 * time.Minute
+	socketPathTemplate                  = "/tmp/nuclio-rpc-%s.sock"
+	connectionTimeout                   = 2 * time.Minute
+	minimumDurationMilliSeconds float64 = 100.0
 )
 
 type result struct {
@@ -390,7 +392,7 @@ func (r *AbstractRuntime) handleReponseMetric(response []byte) {
 	}
 
 	r.Statistics.DurationMilliSecondsCount++
-	r.Statistics.DurationMilliSecondsSum += uint64(metrics.DurationSec * 1000)
+	r.Statistics.DurationMilliSecondsSum += uint64(math.Max(minimumDurationMilliSeconds, metrics.DurationSec*1000))
 }
 
 func (r *AbstractRuntime) handleStart() {
