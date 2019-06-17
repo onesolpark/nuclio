@@ -89,10 +89,10 @@ func (pr *projectResource) GetByID(request *http.Request, id string) (restful.At
 
 	project, err := pr.getPlatform().GetProjects(&platform.GetProjectsOptions{
 		Meta: platform.ProjectMeta{
-			Name:       id,
-			Namespace:  pr.getNamespaceFromRequest(request),
-			Authconfig: authConfig,
+			Name:      id,
+			Namespace: pr.getNamespaceFromRequest(request),
 		},
+		AuthConfig: authConfig,
 	})
 
 	if err != nil {
@@ -143,7 +143,7 @@ func (pr *projectResource) Create(request *http.Request) (id string, attributes 
 	// just deploy. the status is async through polling
 	err = pr.getPlatform().CreateProject(&platform.CreateProjectOptions{
 		ProjectConfig: *newProject.GetConfig(),
-		Authconfig:    authConfig,
+		AuthConfig:    authConfig,
 	})
 
 	if err != nil {
@@ -196,7 +196,7 @@ func (pr *projectResource) deleteProject(request *http.Request) (*restful.Custom
 	}
 
 	deleteProjectOptions := platform.DeleteProjectOptions{
-		Authconfig: authConfig,
+		AuthConfig: authConfig,
 	}
 	deleteProjectOptions.Meta = *projectInfo.Meta
 
