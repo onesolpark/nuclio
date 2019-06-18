@@ -50,7 +50,8 @@ func (pr *projectResource) GetAll(request *http.Request) (map[string]restful.Att
 		return nil, nuclio.NewErrBadRequest("Namespace must exist")
 	}
 
-	if authConfig, err := pr.getRequestAuthConfig(request); err != nil {
+	authConfig, err := pr.getRequestAuthConfig(request)
+	if err != nil {
 		return nil, err
 	}
 
@@ -83,7 +84,8 @@ func (pr *projectResource) GetByID(request *http.Request, id string) (restful.At
 		return nil, nuclio.NewErrBadRequest("Namespace must exist")
 	}
 
-	if authConfig, err := pr.getRequestAuthConfig(request); err != nil {
+	authConfig, err := pr.getRequestAuthConfig(request)
+	if err != nil {
 		return nil, err
 	}
 
@@ -130,7 +132,8 @@ func (pr *projectResource) Create(request *http.Request) (id string, attributes 
 		Spec: *projectInfo.Spec,
 	}
 
-	if authConfig, err := pr.getRequestAuthConfig(request); err != nil {
+	authConfig, err := pr.getRequestAuthConfig(request)
+	if err != nil {
 		return
 	}
 
@@ -188,7 +191,9 @@ func (pr *projectResource) deleteProject(request *http.Request) (*restful.Custom
 		}, err
 	}
 
-	if authConfig, err := pr.getRequestAuthConfig(request); err != nil {
+	authConfig, err := pr.getRequestAuthConfig(request)
+
+	if err != nil {
 		return &restful.CustomRouteFuncResponse{
 			Single:     true,
 			StatusCode: http.StatusBadRequest,
@@ -250,7 +255,8 @@ func (pr *projectResource) updateProject(request *http.Request) (*restful.Custom
 		Spec: *projectInfo.Spec,
 	}
 
-	if authConfig, err := pr.getRequestAuthConfig(request); err != nil {
+	authConfig, err := pr.getRequestAuthConfig(request)
+	if err != nil {
 		return &restful.CustomRouteFuncResponse{
 			Single:     true,
 			StatusCode: http.StatusBadRequest,
