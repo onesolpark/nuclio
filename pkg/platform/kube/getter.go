@@ -44,11 +44,17 @@ func (g *getter) get(consumer *consumer, getFunctionsOptions *platform.GetFuncti
 	var platformFunctions []platform.Function
 	var functions []nuclioio.NuclioFunction
 
+	client, err := consumer.getNuclioClientSet(getFunctionsOptions.AuthConfig)
+
+	if err != nil {
+		return nil, errors.Wrap(err, "Failed to get Nuclio Client")
+	}
+
 	// if identifier specified, we need to get a single function
 	if getFunctionsOptions.Name != "" {
 
 		// get specific function CR
-		function, err := consumer.nuclioClientSet.NuclioV1beta1().NuclioFunctions(getFunctionsOptions.Namespace).Get(getFunctionsOptions.Name, meta_v1.GetOptions{})
+		function, err := client.NuclioV1beta1().NuclioFunctions(getFunctionsOptions.Namespace).Get(getFunctionsOptions.Name, meta_v1.GetOptions{})
 		if err != nil {
 
 			// if we didn't find the function, return an empty slice
@@ -63,7 +69,7 @@ func (g *getter) get(consumer *consumer, getFunctionsOptions *platform.GetFuncti
 
 	} else {
 
-		functionInstanceList, err := consumer.nuclioClientSet.NuclioV1beta1().NuclioFunctions(getFunctionsOptions.Namespace).List(meta_v1.ListOptions{LabelSelector: getFunctionsOptions.Labels})
+		functionInstanceList, err := client.NuclioV1beta1().NuclioFunctions(getFunctionsOptions.Namespace).List(meta_v1.ListOptions{LabelSelector: getFunctionsOptions.Labels})
 
 		if err != nil {
 			return nil, errors.Wrap(err, "Failed to list functions")

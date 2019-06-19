@@ -29,6 +29,7 @@ import (
 
 	"github.com/nuclio/nuclio-sdk-go"
 	"github.com/satori/go.uuid"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 
 type projectResource struct {
@@ -64,6 +65,9 @@ func (pr *projectResource) GetAll(request *http.Request) (map[string]restful.Att
 	})
 
 	if err != nil {
+		if apierrors.IsForbidden(err) {
+			return nil, errors.Wrap(err, "You are not Authorized")
+		}
 		return nil, errors.Wrap(err, "Failed to get projects")
 	}
 
@@ -98,6 +102,9 @@ func (pr *projectResource) GetByID(request *http.Request, id string) (restful.At
 	})
 
 	if err != nil {
+		if apierrors.IsForbidden(err) {
+			return nil, errors.Wrap(err, "You are not Authorized")
+		}
 		return nil, errors.Wrap(err, "Failed to get projects")
 	}
 
@@ -150,6 +157,9 @@ func (pr *projectResource) Create(request *http.Request) (id string, attributes 
 	})
 
 	if err != nil {
+		if apierrors.IsForbidden(err) {
+			return "", nil, nuclio.WrapErrForbidden(err)
+		}
 		return "", nil, nuclio.WrapErrInternalServerError(err)
 	}
 
@@ -207,6 +217,15 @@ func (pr *projectResource) deleteProject(request *http.Request) (*restful.Custom
 
 	err = pr.getPlatform().DeleteProject(&deleteProjectOptions)
 	if err != nil {
+
+		pr.Logger.WarnWith("Failed to get delete project", "err", err)
+		if apierrors.IsForbidden(err) {
+			return &restful.CustomRouteFuncResponse{
+				Single:     true,
+				StatusCode: http.StatusForbidden,
+			}, err
+		}
+
 		return &restful.CustomRouteFuncResponse{
 			Single:     true,
 			StatusCode: http.StatusInternalServerError,
@@ -269,11 +288,18 @@ func (pr *projectResource) updateProject(request *http.Request) (*restful.Custom
 	})
 
 	if err != nil {
-		pr.Logger.WarnWith("Failed to update project", "err", err)
+
 	}
 
 	// if there was an error, try to get the status code
 	if err != nil {
+		pr.Logger.WarnWith("Failed to update project", "err", err)
+		if apierrors.IsForbidden(err) {
+			return &restful.CustomRouteFuncResponse{
+				Single:     true,
+				StatusCode: http.StatusForbidden,
+			}, err
+		}
 		if errWithStatusCode, ok := err.(nuclio.ErrorWithStatusCode); ok {
 			statusCode = errWithStatusCode.StatusCode()
 		}
