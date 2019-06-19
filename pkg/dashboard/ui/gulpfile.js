@@ -182,7 +182,7 @@ gulp.task('app.js', function () {
             path: config.cache_file,
             transformStreams: [
                 babel({
-                    ignore: ['node_modules/iguazio.dashboard-controls/dist/js/iguazio.dashboard-controls.js']
+                    ignore: ['node_modules/iguazio.dashboard-controls-custom/dist/js/iguazio.dashboard-controls.js']
                 })
             ]
         }));
