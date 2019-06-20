@@ -55,9 +55,16 @@ func (fr *functionResource) GetAll(request *http.Request) (map[string]restful.At
 		return nil, nuclio.NewErrBadRequest("Namespace must exist")
 	}
 
+	authConfig, err := fr.getRequestAuthConfig(request)
+
+	if err != nil {
+		return nil, err
+	}
+
 	getFunctionsOptions := &platform.GetFunctionsOptions{
-		Name:      request.Header.Get("x-nuclio-function-name"),
-		Namespace: fr.getNamespaceFromRequest(request),
+		Name:       request.Header.Get("x-nuclio-function-name"),
+		Namespace:  fr.getNamespaceFromRequest(request),
+		AuthConfig: authConfig,
 	}
 
 	// if the user wants to filter by project, do that
@@ -89,9 +96,16 @@ func (fr *functionResource) GetByID(request *http.Request, id string) (restful.A
 		return nil, nuclio.NewErrBadRequest("Namespace must exist")
 	}
 
+	authConfig, err := fr.getRequestAuthConfig(request)
+
+	if err != nil {
+		return nil, err
+	}
+
 	function, err := fr.getPlatform().GetFunctions(&platform.GetFunctionsOptions{
-		Namespace: fr.getNamespaceFromRequest(request),
-		Name:      id,
+		Namespace:  fr.getNamespaceFromRequest(request),
+		Name:       id,
+		AuthConfig: authConfig,
 	})
 
 	if err != nil {

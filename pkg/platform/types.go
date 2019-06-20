@@ -156,18 +156,22 @@ type ProjectConfig struct {
 
 type CreateProjectOptions struct {
 	ProjectConfig ProjectConfig
+	AuthConfig    *AuthConfig
 }
 
 type UpdateProjectOptions struct {
 	ProjectConfig ProjectConfig
+	AuthConfig    *AuthConfig
 }
 
 type DeleteProjectOptions struct {
-	Meta ProjectMeta
+	Meta       ProjectMeta
+	AuthConfig *AuthConfig
 }
 
 type GetProjectsOptions struct {
-	Meta ProjectMeta
+	Meta       ProjectMeta
+	AuthConfig *AuthConfig
 }
 
 // to appease k8s
