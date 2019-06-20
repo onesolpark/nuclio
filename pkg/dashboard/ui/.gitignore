@@ -10,4 +10,3 @@ npm-debug.log
 tests/e2e/test-output
 *.pyc
 dashboard-config.json
-package-lock.json
