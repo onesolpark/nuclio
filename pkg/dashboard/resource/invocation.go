@@ -73,6 +73,9 @@ func (tr *invocationResource) handleRequest(responseWriter http.ResponseWriter, 
 		return
 	}
 
+	request.Header.Del("cookie")
+	request.Header.Del("Authorization")
+
 	// resolve the function host
 	invocationResult, err := tr.getPlatform().CreateFunctionInvocation(&platform.CreateFunctionInvocationOptions{
 		Name:      functionName,

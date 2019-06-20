@@ -368,7 +368,7 @@ func (fr *functionResource) getFunctionInfoFromRequest(request *http.Request) (*
 
 	// override namespace if applicable
 	if functionInfoInstance.Meta != nil {
-		functionInfoInstance.Meta.Namespace = fr.getNamespaceOrDefault(functionInfoInstance.Meta.Namespace)
+		functionInfoInstance.Meta.Namespace = fr.getNamespaceOrDefault(request.Header.Get("x-nuclio-function-namespace"))
 	}
 
 	// meta must exist
