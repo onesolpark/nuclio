@@ -8,22 +8,22 @@ module.exports = {
     source_dir: 'src',
 
     /**
-     * iguazio.dashboard-controls folders
+     * iguazio.dashboard-controls-custom folders
      */
     shared_files: {
-        dist: 'node_modules/iguazio.dashboard-controls/dist',
-        src: 'node_modules/iguazio.dashboard-controls/src',
-        less: 'node_modules/iguazio.dashboard-controls/src/**/*.less',
+        dist: 'node_modules/iguazio.dashboard-controls-custom/dist',
+        src: 'node_modules/iguazio.dashboard-controls-custom/src',
+        less: 'node_modules/iguazio.dashboard-controls-custom/src/**/*.less',
         js: [
-            'node_modules/iguazio.dashboard-controls/src/iguazio.dashboard-controls.module.js',
-            'node_modules/iguazio.dashboard-controls/src/igz_controls/**/*.js',
-            '!node_modules/iguazio.dashboard-controls/src/igz_controls/**/*.spec.js',
-            'node_modules/iguazio.dashboard-controls/src/nuclio/**/*.js',
-            '!node_modules/iguazio.dashboard-controls/src/nuclio/**/*.spec.js'
+            'node_modules/iguazio.dashboard-controls-custom/src/iguazio.dashboard-controls.module.js',
+            'node_modules/iguazio.dashboard-controls-custom/src/igz_controls/**/*.js',
+            '!node_modules/iguazio.dashboard-controls-custom/src/igz_controls/**/*.spec.js',
+            'node_modules/iguazio.dashboard-controls-custom/src/nuclio/**/*.js',
+            '!node_modules/iguazio.dashboard-controls-custom/src/nuclio/**/*.spec.js'
         ],
-        templates: 'node_modules/iguazio.dashboard-controls/src/**/*.html',
-        fonts: 'node_modules/iguazio.dashboard-controls/src/igz_controls/fonts/**/*',
-        images: 'node_modules/iguazio.dashboard-controls/src/igz_controls/images/*',
+        templates: 'node_modules/iguazio.dashboard-controls-custom/src/**/*.html',
+        fonts: 'node_modules/iguazio.dashboard-controls-custom/src/igz_controls/fonts/**/*',
+        images: 'node_modules/iguazio.dashboard-controls-custom/src/igz_controls/images/*',
         templates_module_name: 'iguazio.dashboard-controls.templates'
     },
 
@@ -58,19 +58,19 @@ module.exports = {
             '!src/app/shared/**/*.spec.js',
 
             // js file with shared dashboard controls
-            'node_modules/iguazio.dashboard-controls/dist/js/iguazio.dashboard-controls.js'
+            'node_modules/iguazio.dashboard-controls-custom/dist/js/iguazio.dashboard-controls.js'
         ],
         html: 'src/index.html',
         less_files: [
-            'node_modules/iguazio.dashboard-controls/dist/less/iguazio.dashboard-controls.less',
+            'node_modules/iguazio.dashboard-controls-custom/dist/less/iguazio.dashboard-controls.less',
 
             'src/less/**/*.less',
             'src/app/components/**/*.less'
         ],
-        fonts: 'node_modules/iguazio.dashboard-controls/dist/fonts',
+        fonts: 'node_modules/iguazio.dashboard-controls-custom/dist/fonts',
         images: [
             'src/images/**/*',
-            'node_modules/iguazio.dashboard-controls/dist/images/**/*'
+            'node_modules/iguazio.dashboard-controls-custom/dist/images/**/*'
         ],
         templates: 'src/app/components/**/*.tpl.html', // html files should be only in components folder
         templates_module_name: 'nuclio.app.templates'
