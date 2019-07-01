@@ -376,7 +376,7 @@ func (pr *projectResource) getProjectInfoFromRequest(request *http.Request, name
 
 	// override namespace if applicable
 	if projectInfoInstance.Meta != nil {
-		projectInfoInstance.Meta.Namespace = pr.getNamespaceOrDefault(projectInfoInstance.Meta.Namespace)
+		projectInfoInstance.Meta.Namespace = pr.getNamespaceOrDefault(request.Header.Get("x-nuclio-project-namespace"))
 	}
 
 	// meta must exist

@@ -106,9 +106,21 @@ func (c *ShellClient) Build(buildOptions *BuildOptions) error {
 		}
 	}
 
+	resourceQuota := ""
+	if len(os.Getenv("NUCLIO_BUILD_CPU_QUOTA")) != 0 {
+		cpuQuota, err := strconv.ParseInt(os.Getenv("NUCLIO_BUILD_CPU_QUOTA"), 10, 0)
+		if err == nil {
+			resourceQuota += fmt.Sprintf("--cpu-quota %d ", cpuQuota)
+		}
+	}
+	if len(os.Getenv("NUCLIO_BUILD_MEM_QUOTA")) != 0 {
+		resourceQuota += fmt.Sprintf("--memory %s ", os.Getenv("NUCLIO_BUILD_MEM_QUOTA"))
+	}
+
 	_, err := c.runCommand(runOptions,
-		"docker build %s --force-rm -t %s -f %s %s %s .",
+		"docker build %s %s --force-rm -t %s -f %s %s %s .",
 		hostNetString,
+		resourceQuota,
 		buildOptions.Image,
 		buildOptions.DockerfilePath,
 		cacheOption,
