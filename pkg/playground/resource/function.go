@@ -228,6 +228,7 @@ func (fr *functionResource) OnAfterInitialize() error {
 			},
 		},
 		{
+			// edit build image and command
 			Meta: functionconfig.Meta{
 				Name: "encrypt",
 			},
@@ -238,9 +239,11 @@ func (fr *functionResource) OnAfterInitialize() error {
 				},
 				Build: functionconfig.Build{
 					Path: "/sources/encrypt.py",
+					BaseImage: "sds.redii.net/nuclio/python-36-centos7:latest",
 					Commands: []string{
-						"apk --update --no-cache add gcc g++ make libffi-dev openssl-dev",
-						"pip install simple-crypt",
+						// "apk --update --no-cache add gcc g++ make libffi-dev openssl-dev",
+						"yum install -y gcc gcc-c++ make libffi-devel openssl-devel",
+						"pip install --index-url=http://70.121.224.52:8081/repository/pypi/simple/ --trusted-host=70.121.224.52 simple-crypt",
 					},
 				},
 			},
@@ -266,24 +269,25 @@ func (fr *functionResource) OnAfterInitialize() error {
 				},
 			},
 		},
-		{
-			Meta: functionconfig.Meta{
-				Name: "face",
-			},
-			Spec: functionconfig.Spec{
-				Runtime: "python:3.6",
-				Env: []v1.EnvVar{
-					{Name: "FACE_API_KEY", Value: "<key here>"},
-					{Name: "FACE_API_BASE_URL", Value: "https://<region>.api.cognitive.microsoft.com/face/v1.0/"},
-				},
-				Build: functionconfig.Build{
-					Path: "/sources/face.py",
-					Commands: []string{
-						"pip install cognitive_face tabulate inflection",
-					},
-				},
-			},
-		},
+		// remove unsupported template
+		// {
+		// 	Meta: functionconfig.Meta{
+		// 		Name: "face",
+		// 	},
+		// 	Spec: functionconfig.Spec{
+		// 		Runtime: "python:3.6",
+		// 		Env: []v1.EnvVar{
+		// 			{Name: "FACE_API_KEY", Value: "<key here>"},
+		// 			{Name: "FACE_API_BASE_URL", Value: "https://<region>.api.cognitive.microsoft.com/face/v1.0/"},
+		// 		},
+		// 		Build: functionconfig.Build{
+		// 			Path: "/sources/face.py",
+		// 			Commands: []string{
+		// 				"pip install cognitive_face tabulate inflection",
+		// 			},
+		// 		},
+		// 	},
+		// },
 		{
 			Meta: functionconfig.Meta{
 				Name: "regexscan",
@@ -309,26 +313,27 @@ func (fr *functionResource) OnAfterInitialize() error {
 				},
 			},
 		},
-		{
-			Meta: functionconfig.Meta{
-				Name: "tensorflow",
-			},
-			Spec: functionconfig.Spec{
-				Runtime: "python:3.6",
-				Build: functionconfig.Build{
-					Path:      "/sources/tensor.py",
-					BaseImage: "debian:jessie",
-					Commands: []string{
-						"apt-get update && apt-get install -y wget",
-						"wget http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz",
-						"mkdir -p /tmp/tfmodel",
-						"tar -xzvf inception-2015-12-05.tgz -C /tmp/tfmodel",
-						"rm inception-2015-12-05.tgz",
-						"pip install requests numpy tensorflow",
-					},
-				},
-			},
-		},
+		// remove unsupported template
+		// {
+		// 	Meta: functionconfig.Meta{
+		// 		Name: "tensorflow",
+		// 	},
+		// 	Spec: functionconfig.Spec{
+		// 		Runtime: "python:3.6",
+		// 		Build: functionconfig.Build{
+		// 			Path:      "/sources/tensor.py",
+		// 			BaseImage: "debian:jessie",
+		// 			Commands: []string{
+		// 				"apt-get update && apt-get install -y wget",
+		// 				"wget http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz",
+		// 				"mkdir -p /tmp/tfmodel",
+		// 				"tar -xzvf inception-2015-12-05.tgz -C /tmp/tfmodel",
+		// 				"rm inception-2015-12-05.tgz",
+		// 				"pip install requests numpy tensorflow",
+		// 			},
+		// 		},
+		// 	},
+		// },
 		{
 			Meta: functionconfig.Meta{
 				Name: "img-convert",
@@ -347,6 +352,7 @@ func (fr *functionResource) OnAfterInitialize() error {
 				},
 			},
 		},
+		// edit build command
 		{
 			Meta: functionconfig.Meta{
 				Name: "dates",
@@ -356,7 +362,7 @@ func (fr *functionResource) OnAfterInitialize() error {
 				Build: functionconfig.Build{
 					Path: "/sources/dates.js",
 					Commands: []string{
-						"npm install --global moment",
+						"npm install --global --registry http://nexus.sdsdev.co.kr:8081/nexus/content/repositories/npm-all/ moment",
 					},
 				},
 			},
