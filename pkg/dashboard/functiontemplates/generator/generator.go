@@ -397,7 +397,9 @@ func newGenerator(logger logger.Logger, examplesDir string, outputPath string) (
 	// TODO: support java parser too i guess
 	//newGenerator.runtimes = []string{"golang", "python", "pypy", "nodejs", "java", "dotnetcore", "shell"}
 
-	newGenerator.runtimes = []string{"golang", "python", "pypy", "nodejs", "dotnetcore", "shell"}
+	// delete unsupported runtime
+	// newGenerator.runtimes = []string{"golang", "python", "pypy", "nodejs", "dotnetcore", "shell"}
+	newGenerator.runtimes = []string{"python", "pypy", "nodejs", "shell"}
 
 	slashSlashParser := inlineparser.NewParser(logger, "//")
 	poundParser := inlineparser.NewParser(logger, "#")
