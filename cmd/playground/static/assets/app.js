@@ -2206,14 +2206,14 @@ $(function () {
                 value: 'nats',
                 label: 'NATS'
             },
-            {
-                value: 'v3ioItemPoller',
-                label: 'v3io item poller'
-            },
-            {
-                value: 'v3ioStream',
-                label: 'v3io stream'
-            },
+            //{
+            //    value: 'v3ioItemPoller',
+            //    label: 'v3io item poller'
+            //},
+            //{
+            //    value: 'v3ioStream',
+            //    label: 'v3io stream'
+            //},
             {
                 value: 'cron',
                 label: 'cron'
